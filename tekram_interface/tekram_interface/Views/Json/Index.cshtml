@@ -1,0 +1,51 @@
+﻿@model Dictionary<string, JsonObject>
+
+<h2>JSON Objects</h2>
+
+<div class="form-group">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by object name" />
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Object Name</th>
+            <th>Text</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="objectTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value.Text</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.Key">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Key">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create">Create New</a>
+
+@section Scripts {
+    <script>
+        document.getElementById("searchInput").addEventListener("input", function () {
+            var searchQuery = this.value.toLowerCase();
+            var objectTableBody = document.getElementById("objectTableBody");
+            var rows = objectTableBody.getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var objectName = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
+                if (objectName.includes(searchQuery)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        });
+    </script>
+}

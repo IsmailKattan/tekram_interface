@@ -1,0 +1,53 @@
+﻿@model JsonObject
+
+<h2>Create JSON Object</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="ObjectName">Object Name</label>
+        <input type="text" id="ObjectName" name="ObjectName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Text">Text</label>
+        <textarea asp-for="Text" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Keyboard</label>
+        <div id="keyboardInputs">
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="text" name="Keys" class="form-control" placeholder="Key" />
+                </div>
+                <div class="col">
+                    <input type="text" name="Values" class="form-control" placeholder="Value" />
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" id="addKey">Add Key</button>
+    </div>
+    <div class="form-group">
+        <label for="ImagePath">Image Path</label>
+        <input type="text" id="ImagePath" name="ImagePath" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById("addKey").addEventListener("click", function () {
+            var keyboardInputs = document.getElementById("keyboardInputs");
+            var newRow = document.createElement("div");
+            newRow.classList.add("row", "mb-3");
+            newRow.innerHTML = `
+                        <div class="col">
+                            <input type="text" name="Keys" class="form-control" placeholder="Key" />
+                        </div>
+                        <div class="col">
+                            <input type="text" name="Values" class="form-control" placeholder="Value" />
+                        </div>
+                    `;
+            keyboardInputs.appendChild(newRow);
+        });
+    </script>
+}

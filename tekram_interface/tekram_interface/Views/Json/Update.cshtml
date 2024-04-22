@@ -1,0 +1,66 @@
+﻿@model JsonObject
+
+<h2>Update JSON Object</h2>
+
+<form asp-action="Update" method="post">
+    <input type="text" class="form-control" value="@ViewBag.id" readonly />
+
+    <div class="form-group">
+        <label>Text</label>
+        <textarea asp-for="Text" class="form-control" rows="5">@Model.Text</textarea>
+    </div>
+
+    <div class="form-group" id="keyboardInputs">
+        <label>Keyboard</label>
+        @foreach (var item in Model.Keyboard)
+        {
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="text" name="keys" class="form-control" placeholder="Key" value="@item.Key" />
+                </div>
+                <div class="col">
+                    <input type="text" name="values" class="form-control" placeholder="Value" value="@item.Value" />
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger removeKey">Remove</button>
+                </div>
+            </div>
+        }
+    </div>
+    <button type="button" class="btn btn-secondary" id="addKey">Add Key</button>
+
+    <div class="form-group">
+        <label for="ImagePath">Image Path</label>
+        <input type="text" id="ImagePath" name="imagePath" class="form-control" value="@ViewBag.image"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById("addKey").addEventListener("click", function () {
+            var keyboardInputs = document.getElementById("keyboardInputs");
+            var newRow = document.createElement("div");
+            newRow.classList.add("row", "mb-3");
+            newRow.innerHTML = `
+                                        <div class="col">
+                                            <input type="text" name="keys" class="form-control" placeholder="Key" />
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" name="values" class="form-control" placeholder="Value" />
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger removeKey">Remove</button>
+                                        </div>
+                                    `;
+            keyboardInputs.appendChild(newRow);
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("removeKey")) {
+                e.target.closest(".row").remove();
+            }
+        });
+    </script>
+}
